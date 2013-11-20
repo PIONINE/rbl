@@ -1,0 +1,84 @@
+#!/bin/sh
+
+rbl_version="0.0.1"
+rbl_source="https://raw.github.com/uu59/rbl/master/rbl"
+
+usage () {
+  cat <<EOF >&2
+rbl $rbl_version
+
+Usage:
+  rbl help
+  rbl use <version>
+  rbl versions
+  rbl build (required ruby-build)
+  rbl install
+  rbl update
+
+How to use:
+  export PATH="/path/to/rbl/current/bin:\$PATH"
+
+Example:
+  rbl use 2.0.0-p0
+  rbl versions
+  RUBYBUILD=/path/to/ruby-build rbl build 1.9.3-p374
+
+Variables:
+  RDL_DIR      rdl install path  (Default: ~/.rbl)
+  RDL_VERSIONS ruby binaries dir (Default: ~/.rbenv/versions)
+  RUBYBUILD    ruby-build path   (Default: ruby-build)
+EOF
+  exit 1
+}
+
+error () {
+  echo $* >&2
+  exit 1
+}
+
+: ${RBL_DIR:="$HOME/.rbl"}
+: ${RBL_VERSIONS:="$HOME/.rbenv/versions"}
+: ${RUBYBUILD:="ruby-build"}
+
+case "$1" in
+  use)
+    if [ -z "$2" ];then
+      error "Ruby version required."
+    fi
+    if [ ! -d "$RBL_VERSIONS/$2" ]; then
+      error "$RBL_VERSIONS/$2 not exists."
+    fi
+    rm -f $RBL_DIR/current
+    ln -sf $RBL_VERSIONS/$2 $RBL_DIR/current
+    ln -sf $RBL_DIR/rbl $RBL_DIR/current/bin
+    ;;
+
+  versions)
+    echo $RBL_VERSIONS/* | xargs -n1 basename
+    ;;
+
+  build)
+    $RUBYBUILD $2 $RBL_VERSIONS/$2
+    ;;
+
+  install)
+    if [ -x $RBL_DIR/rbl ]; then
+      error "$RBL_DIR/rbl exists."
+    else
+      mkdir -p $RBL_DIR
+      curl -Lo $RBL_DIR/rbl $rbl_source
+      chmod +x $RBL_DIR/rbl
+      [ ! -d $RBL_DIR/current/bin ] && mkdir -p $RBL_DIR/current/bin
+      [ ! -e $RBL_DIR/current/bin/rbl ] && ln -s $RBL_DIR/rbl $RBL_DIR/current/bin
+    fi
+    ;;
+
+  update)
+    mkdir -p $RBL_DIR
+    curl -Lo $RBL_DIR/rbl $rbl_source
+    ;;
+
+  *)
+    usage
+    ;;
+esac
