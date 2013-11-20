@@ -13,4 +13,7 @@ env:
 install:
   - "pip install -r requirements.txt --use-mirrors"
 
+before_script:
+  - "sudo apt-get install zsh"
+
 script: "cram -v --shell=$CRAM_SHELL tests"
