@@ -6,7 +6,5 @@ rbl is a dead simple ruby version manager that is inspired by [nodebrew](https:/
 
 # Install
 
-    $ wget https://github.com/uu59/rbl/raw/master/rbl
-    $ chmod +x ./rbl
-    $ ./rbl install
+    $ curl -L https://github.com/uu59/rbl/raw/master/rbl | sh
     $ echo 'export PATH="$HOME/.rbl/current/bin:$PATH"' >> ~/.bash_profile

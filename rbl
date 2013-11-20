@@ -36,9 +36,22 @@ error () {
   exit 1
 }
 
+install () {
+  mkdir -p $RBL_DIR
+  curl -Lo $RBL_DIR/rbl $rbl_source
+  chmod +x $RBL_DIR/rbl
+  [ ! -d $RBL_DIR/current/bin ] && mkdir -p $RBL_DIR/current/bin
+  [ ! -e $RBL_DIR/current/bin/rbl ] && ln -s $RBL_DIR/rbl $RBL_DIR/current/bin
+}
+
 : ${RBL_DIR:="$HOME/.rbl"}
 : ${RBL_VERSIONS:="$HOME/.rbenv/versions"}
 : ${RUBYBUILD:="ruby-build"}
+
+if [ "$0" = "sh" ];then
+  install
+  exit
+fi
 
 case "$1" in
   use)
@@ -65,11 +78,7 @@ case "$1" in
     if [ -x $RBL_DIR/rbl ]; then
       error "$RBL_DIR/rbl exists."
     else
-      mkdir -p $RBL_DIR
-      curl -Lo $RBL_DIR/rbl $rbl_source
-      chmod +x $RBL_DIR/rbl
-      [ ! -d $RBL_DIR/current/bin ] && mkdir -p $RBL_DIR/current/bin
-      [ ! -e $RBL_DIR/current/bin/rbl ] && ln -s $RBL_DIR/rbl $RBL_DIR/current/bin
+      install
     fi
     ;;
 
