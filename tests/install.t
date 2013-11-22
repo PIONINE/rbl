@@ -1,8 +1,7 @@
 install from pipe
 
   $ . $TESTDIR/helper.sh
-  $ cat $TESTDIR/../rbl | sh > /dev/null 2>&1
-  [1]
+  $ (cat $TESTDIR/../rbl | sh > /dev/null 2>&1 || exit 0)
   $ tree -a $HOME/.rbl
   /* (glob)
   |-- core
