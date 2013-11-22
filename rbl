@@ -69,6 +69,10 @@ case "$1" in
     echo $RBL_VERSIONS/* | xargs -n1 basename
     ;;
 
+  version)
+    error "rbl: Ruby Locator v"$rbl_version
+    ;;
+
   build)
     $RUBYBUILD $2 $RBL_VERSIONS/$2
     ;;
