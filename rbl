@@ -1,7 +1,6 @@
 #!/bin/sh
 
-rbl_version="0.0.1"
-rbl_source="https://raw.github.com/uu59/rbl/master/rbl"
+rbl_version="0.0.2"
 
 usage () {
   cat <<EOF >&2
@@ -37,16 +36,16 @@ error () {
 }
 
 install () {
-  mkdir -p $RBL_DIR
-  curl -Lo $RBL_DIR/rbl $rbl_source
+  mkdir -p $RBL_DIR/core/bin
+  curl -Lo $RBL_DIR/rbl "https://raw.github.com/uu59/rbl/master/rbl"
   chmod +x $RBL_DIR/rbl
-  [ ! -d $RBL_DIR/current/bin ] && mkdir -p $RBL_DIR/current/bin
-  [ ! -e $RBL_DIR/current/bin/rbl ] && ln -s $RBL_DIR/rbl $RBL_DIR/current/bin
+  ln -sf $RBL_DIR/rbl $RBL_DIR/core/bin
+  [ ! -e $RBL_DIR/current ] && ln -s $RBL_DIR/core $RBL_DIR/current
 }
 
 : ${RBL_DIR:="$HOME/.rbl"}
 : ${RBL_VERSIONS:="$HOME/.rbenv/versions"}
-: ${RUBYBUILD:="ruby-build"}
+: ${RUBYBUILD:="$HOME/.rbenv/plugins/ruby-build/bin/ruby-build"}
 
 if [ "$0" = "sh" ];then
   install
@@ -83,8 +82,7 @@ case "$1" in
     ;;
 
   update)
-    mkdir -p $RBL_DIR
-    curl -Lo $RBL_DIR/rbl $rbl_source
+    install
     ;;
 
   *)
