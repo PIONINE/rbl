@@ -1,3 +1,18 @@
+install from pipe
+
+  $ . $TESTDIR/helper.sh
+  $ cat $TESTDIR/../rbl | sh > /dev/null 2>&1
+  [1]
+  $ tree -a $HOME/.rbl
+  /* (glob)
+  |-- core
+  |   `-- bin
+  |       `-- rbl -> */rbl (glob)
+  |-- current -> */core (glob)
+  `-- rbl
+  
+  * directories, * files (glob)
+
 rbl install
 
   $ . $TESTDIR/helper.sh
