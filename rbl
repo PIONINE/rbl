@@ -8,7 +8,7 @@ rbl $rbl_version
 
 Usage:
   rbl help                         Command list
-  rbl use <version>                Use <version> of RUby
+  rbl use <version>                Use <version> of Ruby
   rbl version                      rbl version
   rbl versions                     Known Ruby versions
   rbl build (required ruby-build)  Build Ruby from tarball
