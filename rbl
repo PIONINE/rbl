@@ -12,7 +12,7 @@ Usage:
   rbl version                      rbl version
   rbl versions                     Known Ruby versions
   rbl build (required ruby-build)  Build Ruby from tarball
-  rbl update                       Update rbl
+  rbl update <version>             Update rbl (to <version>, default is github's master)
 
 How to use:
   export PATH="$RBL_DIR/current/bin:\$PATH"
