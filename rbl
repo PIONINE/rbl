@@ -36,8 +36,9 @@ error () {
 }
 
 install () {
+  version=$1
   mkdir -p $RBL_DIR/core/bin
-  curl -Lo $RBL_DIR/rbl "https://raw.github.com/uu59/rbl/master/rbl"
+  curl -Lo $RBL_DIR/rbl "https://raw.github.com/uu59/rbl/${version:-"master"}/rbl"
   chmod +x $RBL_DIR/rbl
   ln -sf $RBL_DIR/rbl $RBL_DIR/core/bin
   [ ! -e $RBL_DIR/current ] && ln -s $RBL_DIR/core $RBL_DIR/current
@@ -81,12 +82,12 @@ case "$1" in
     if [ -x $RBL_DIR/rbl ]; then
       error "$RBL_DIR/rbl exists."
     else
-      install
+      install $2
     fi
     ;;
 
   update)
-    install
+    install $2
     ;;
 
   *)

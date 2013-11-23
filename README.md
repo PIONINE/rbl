@@ -8,3 +8,9 @@ rbl is a dead simple ruby version manager that is inspired by [nodebrew](https:/
 
     $ curl -L https://github.com/uu59/rbl/raw/master/rbl | sh
     $ echo 'export PATH="$HOME/.rbl/current/bin:$PATH"' >> ~/.bash_profile
+
+Or,
+
+    $ curl -Lo rbl https://github.com/uu59/rbl/raw/master/rbl
+    $ chmod +x ./rbl
+    $ ./rbl install
